@@ -1,0 +1,6 @@
+{
+  "name": "SpecForge — AI API Generator",
+  "description": "Transform OpenAPI 3.x JSON or YAML specifications into typed TypeScript SDKs, Markdown API docs, unit tests, Postman collections, and request examples with real-time streaming AI.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
