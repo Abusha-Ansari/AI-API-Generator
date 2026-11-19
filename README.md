@@ -78,6 +78,14 @@ NODE_ENV=production PORT=3000 npm start
 
 > **Note**: `npm start` executes `node server.ts`, which uses Node.js 22.6+ native TypeScript stripping (`--experimental-strip-types` is enabled by default in Node 22.18+). If deploying on an older Node 20 runtime, start with `NODE_ENV=production npx tsx server.ts`.
 
+### Deploying to Vercel
+
+SpecForge includes `vercel.json` and Vercel Serverless Functions under `api/`:
+
+- **SPA Routing**: `vercel.json` rewrites all non-API paths (`/docs`, `/generate`, etc.) to `/index.html` so direct URL visits and page refreshes never 404.
+- **Serverless API**: `/api/providers`, `/api/models`, `/api/parse-spec`, `/api/fetch-spec-url`, and `/api/generate` (SSE streaming) deploy automatically as Vercel Node Functions with zero extra configuration.
+- **No Server Keys Required**: Leave environment variables empty for pure BYOK usage, or optionally add `GEMINI_API_KEY`, `OPENAI_API_KEY`, or `ANTHROPIC_API_KEY` in Vercel Project Settings.
+
 ### Useful Scripts
 
 | Script | Description |
@@ -102,6 +110,13 @@ NODE_ENV=production PORT=3000 npm start
 
 ```text
 .
+├── api/                         # Vercel Serverless Function entrypoints (/api/*)
+│   ├── _helpers.ts              # Shared request/response JSON helpers
+│   ├── fetch-spec-url.ts        # POST /api/fetch-spec-url
+│   ├── generate.ts              # POST /api/generate (SSE streaming)
+│   ├── models.ts                # POST /api/models
+│   ├── parse-spec.ts            # POST /api/parse-spec
+│   └── providers.ts             # GET /api/providers
 ├── public/
 │   ├── favicon.svg              # SVG brand icon
 │   ├── robots.txt               # Search crawler directives
@@ -131,6 +146,7 @@ NODE_ENV=production PORT=3000 npm start
 │   └── main.tsx                 # React entry point
 ├── index.html                   # HTML shell with SEO, OpenGraph, Twitter & JSON-LD
 ├── server.ts                    # Express server + Vite dev middleware
+├── vercel.json                  # Vercel build config & SPA fallback rewrite
 └── package.json
 ```
 
