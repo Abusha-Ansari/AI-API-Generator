@@ -1,0 +1,17 @@
+{
+  "name": "SpecForge — AI API Generator",
+  "short_name": "SpecForge",
+  "description": "Transform OpenAPI 3.x JSON or YAML specifications into typed TypeScript SDKs, Markdown API docs, unit tests, Postman collections, and request examples with real-time streaming AI.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0B0C0F",
+  "theme_color": "#0B0C0F",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

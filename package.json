@@ -1,7 +1,20 @@
 {
-  "name": "react-example",
+  "name": "specforge",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "Transform OpenAPI 3.x JSON or YAML specifications into typed TypeScript SDKs, Markdown API docs, unit tests, Postman collections, and request examples with real-time streaming AI.",
+  "keywords": [
+    "openapi",
+    "swagger",
+    "typescript-sdk",
+    "api-docs",
+    "postman",
+    "vitest",
+    "jest",
+    "streaming-ai",
+    "byok"
+  ],
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "tsx server.ts",

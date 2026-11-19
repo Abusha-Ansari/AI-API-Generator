@@ -22,6 +22,44 @@ function readSharedSpecFromHash(): string | undefined {
   }
 }
 
+const ROUTE_METADATA: Record<AppRoute, { title: string; description: string }> = {
+  '/': {
+    title: 'SpecForge — AI API Generator for OpenAPI 3.x',
+    description:
+      'Transform OpenAPI 3.x JSON or YAML specs into typed TypeScript SDKs, Markdown API docs, unit tests, Postman collections, and cURL examples via streaming AI.',
+  },
+  '/generate': {
+    title: 'Workspace — SpecForge AI API Generator',
+    description:
+      'Validate OpenAPI 3.x JSON or YAML contracts, pick your LLM provider and model with BYOK, and stream downloadable SDKs, docs, tests, and Postman collections.',
+  },
+  '/docs': {
+    title: 'Guide — SpecForge AI API Generator',
+    description:
+      'Learn how SpecForge validates OpenAPI schemas, streams five developer artifacts, and works with your own Gemini, OpenAI, or Anthropic API keys.',
+  },
+};
+
+function upsertMetaTag(attr: 'name' | 'property', key: string, content: string): void {
+  let el = document.head.querySelector(`meta[${attr}="${key}"]`);
+  if (!el) {
+    el = document.createElement('meta');
+    el.setAttribute(attr, key);
+    document.head.appendChild(el);
+  }
+  el.setAttribute('content', content);
+}
+
+function upsertCanonicalLink(href: string): void {
+  let link = document.head.querySelector('link[rel="canonical"]');
+  if (!link) {
+    link = document.createElement('link');
+    link.setAttribute('rel', 'canonical');
+    document.head.appendChild(link);
+  }
+  link.setAttribute('href', href);
+}
+
 export default function App() {
   const [route, setRoute] = useState<AppRoute>(() =>
     resolveRouteFromPath(window.location.pathname),
@@ -38,6 +76,19 @@ export default function App() {
     document.documentElement.classList.toggle('dark', isDark);
     localStorage.setItem('specforge_theme', isDark ? 'dark' : 'light');
   }, [isDark]);
+
+  useEffect(() => {
+    const meta = ROUTE_METADATA[route];
+    const canonicalUrl = `${window.location.origin}${window.location.pathname}`;
+    document.title = meta.title;
+    upsertMetaTag('name', 'description', meta.description);
+    upsertMetaTag('property', 'og:title', meta.title);
+    upsertMetaTag('property', 'og:description', meta.description);
+    upsertMetaTag('property', 'og:url', canonicalUrl);
+    upsertMetaTag('name', 'twitter:title', meta.title);
+    upsertMetaTag('name', 'twitter:description', meta.description);
+    upsertCanonicalLink(canonicalUrl);
+  }, [route]);
 
   useEffect(() => {
     const onPopState = () => {
